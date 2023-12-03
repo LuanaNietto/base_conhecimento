@@ -8,6 +8,7 @@ import { GlobalStyled } from "./GlobalStyled";
 import ErrorPage from "./pages/error/ErrorPage";
 import { Login } from "./pages/login/Login";
 import {Article} from "./pages/article/Article"
+import {List} from "./pages/list/List"
 import UserProvider from "./context/Context";
 
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/article",
     element: <Article />,
+  },
+  {
+    path: "/list",
+    element: <List />,
   },
 ]);
 
