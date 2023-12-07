@@ -7,6 +7,7 @@ export const AuthContainer = styled.div`
   align-items: center;
   width: 70%;
   margin: 0 auto;
+  
 
   form {
     display: flex;
@@ -21,9 +22,9 @@ export const Section = styled.section`
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  height: 400px;
-  padding: 2rem;
-  gap: 1rem;
+  height: 100%;
+  padding: 25rem;
+  gap: 10rem;
   background-color: ${(props) => (props.type === "artigo" ? "blue" : "white")};
   color: ${(props) => (props.type === "usuario" ? "blue" : "white")};
 

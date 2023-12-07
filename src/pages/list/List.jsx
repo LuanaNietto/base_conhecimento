@@ -9,7 +9,7 @@ export function List() {
   return (
     <AuthContainer>
     <Section type="artigo">
-      <h2>Artigos</h2>
+    <h2 style={{ marginBottom: '10px' }}>Artigos</h2>
       <ul>
         {artigos.map((artigo, index) => (
           <li key={index}>{`${index + 1}- ${artigo}`}</li>
