@@ -10,6 +10,7 @@ import { Login } from "./pages/login/Login";
 import {Article} from "./pages/article/Article"
 import UserProvider from "./context/Context";
 import { Teste } from "./pages/teste/teste";
+import { List } from "./pages/list/List";
 
 const router = createBrowserRouter([
   {
@@ -35,12 +36,10 @@ const router = createBrowserRouter([
     path: "/article",
     element: <Article />,
   },
-
-
-
-
-
-  
+  {
+    path: "/list",
+    element: <List />,
+  },
   {
     path: "/teste",
     element: <Teste />,
