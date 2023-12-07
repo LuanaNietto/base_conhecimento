@@ -37,12 +37,15 @@ export function addArtigo(data) {
   return response;
 }
 
-export function updateArtigo(id, data) {
-  const body = {
-    ...data
-  };
-  const response = axios.put(`${baseURL}/article/update/${id}`, body);
-  return response;
+export async function updateArtigo(id, data) {
+  try {
+    const body = { ...data };
+    const response = await axios.put(`${baseURL}/article/update/${id}`, body);
+    return response;
+  } catch (error) {
+    console.error("Error updating article:", error);
+    throw error;
+  }
 }
 
 export function deleteArtigo(id) {

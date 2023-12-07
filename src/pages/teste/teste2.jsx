@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { getArtigoById, updateArtigo, deleteArtigo } from "../../services/articleService";
-import { HomeBody } from "./HomeStyled";
-import { Input } from "../../components/Input/Input";
 
-// Parte de Artigo
+import React, { useState, useEffect } from "react";
+import { getUserById, updateUser, deleteUser } from "../../services/userService";
+import { HomeBody } from "./HomeStyled";
+
+// Parte de Usuário
 
 export function Teste() {
   const [post, setPosts] = useState([]);
 
+  console.log("Is post working", post);
+
   async function findPost() {
     try {
-      const response = await getArtigoById('656a46a096f3794ae21ec604');
+      const response = await getUserById('656a33ef058637f6de5795f2');
       
       if (response && response.data) {
         console.log("Fetched data:", response.data);
@@ -27,22 +29,27 @@ export function Teste() {
     findPost();
   }, []);
 
+  useEffect(() => {
+    console.log("Post state:", post);
+  }, [post]);
+
   const updateExistingPost = async () => {
     try {
       const updatedPostData = {
         // Replace with the actual data you want to update
-        kb_title: "Updated Title",
+        author_name: "Nome Autor",
         // Add other fields as needed
       };
 
-      const response = await updateArtigo('656a46a096f3794ae21ec604', updatedPostData);
-      const updatedPosts = [...post];
-      const updatedPostIndex = updatedPosts.findIndex(item => item._id === '656a46a096f3794ae21ec604');
+      const response = await updateUser('656a33ef058637f6de5795f2', updatedPostData);
+
+      console.log("Update response:", response);
+
+      const updatedPosts = post.map(item => (item._id === '656a33ef058637f6de5795f2' ? response.data : item));
       
-      if (updatedPostIndex !== -1) {
-        updatedPosts[updatedPostIndex] = response.data;
-        setPosts(updatedPosts);
-      }
+      console.log("Updated Posts:", updatedPosts);
+
+      setPosts(updatedPosts);
     } catch (error) {
       console.error("Error updating post:", error);
     }
@@ -50,30 +57,24 @@ export function Teste() {
 
   const deleteExistingPost = async () => {
     try {
-      await deleteArtigo('656a46a096f3794ae21ec604');
+      await deleteUser('656a33ef058637f6de5795f2');
       setPosts([]);
     } catch (error) {
       console.error("Error deleting post:", error);
     }
   };
 
-  console.log("Post state:", post);
-
   return (
     <>
       <HomeBody>
         {post.map(item => (
-          <span key={item._id} type="text">{item.kb_title}</span>
-        ))}
-        {post.map(item => (
-          <span key={item._id} type="text">{item.kb_body}</span>
-        ))}
-        {post.map(item => (
-          <span key={item._id} type="text">{item.kb_keywords}</span>
+          <div key={item._id}>
+            <span>{item.author_name || "No author name"}</span>
+            <span>{item.author_email || "No author email"}</span>
+            <span>{item.author_user || "No author user"}</span>
+          </div>
         ))}
         
-        {/* Removed the button for adding new post */}
-        {/* <button onClick={addNewPost}>Add New Post</button> */}
         <button onClick={updateExistingPost}>Update Post</button>
         <button onClick={deleteExistingPost}>Delete Post</button>
       </HomeBody>
