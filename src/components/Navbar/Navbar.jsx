@@ -68,7 +68,10 @@ export function Navbar() {
             />
           </InputSpace>
         </form>
+        
 
+      
+      
         {user ? (
           <UserLoggedSpace>
             <Link to="/">
@@ -88,8 +91,15 @@ export function Navbar() {
               Entrar
             </Button>
           </Link>
+            
         )}
-       
+
+        <Link to="/teste">
+          <Button type="button" text="Admin">
+            Admin
+          </Button>
+        </Link>
+
       </Nav>
       {errors.title && <ErrorSpan>{errors.title.message}</ErrorSpan>}
        <Outlet />

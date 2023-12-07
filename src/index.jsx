@@ -9,6 +9,7 @@ import ErrorPage from "./pages/error/ErrorPage";
 import { Login } from "./pages/login/Login";
 import {Article} from "./pages/article/Article"
 import UserProvider from "./context/Context";
+import { Teste } from "./pages/teste/teste";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/article",
     element: <Article />,
+  },
+  {
+    path: "/teste",
+    element: <Teste />,
   },
 ]);
 
