@@ -10,11 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../Button/Button";
 import { searchFunction } from "../../functions/searchFunction";
 import { userLogged } from "../../services/userService";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { UserContext } from "../../context/Context";
-import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import {Article} from "../../pages/article/Article";
 
 export function Navbar() {
   const {
@@ -26,7 +23,6 @@ export function Navbar() {
     resolver: zodResolver(searchFunction),
   });
   const navigate = useNavigate();
-  // const { user, setUser } = useContext(UserContext);
   const [ token, setToken ] = useState(false);
 
   function onSearch(data) {
@@ -76,6 +72,10 @@ export function Navbar() {
 
         {token ? (
           <UserLoggedSpace>
+            <Link to="/" style={{marginRight: '10px'}}>
+              <Button type="button" text="Home"></Button>
+            </Link>
+            
             <Link to="/admin">
               <Button type="button" text="Admin">
                 Admin
@@ -85,14 +85,18 @@ export function Navbar() {
             <i className="bi bi-box-arrow-right" onClick={signout}></i>
           </UserLoggedSpace>
          ) : (
-          <Link to="/login">
-            <Button type="button" text="Entrar">
-              Entrar
-            </Button>
-          </Link>
-            
-        )}
+          <div>
+            <Link to="/" style={{marginRight: '10px'}}>
+              <Button type="button" text="Home"></Button>
+            </Link>
 
+            <Link to="/login">
+              <Button type="button" text="Entrar">
+                Entrar
+              </Button>
+            </Link>
+          </div>
+        )}
       </Nav>
       {errors.title && <ErrorSpan>{errors.title.message}</ErrorSpan>}
        <Outlet />

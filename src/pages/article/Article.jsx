@@ -15,6 +15,7 @@ export function Article() {
   const [kb_permalink, setKb_permalink] = useState('');
   const [kb_keywords, setKb_keywords] = useState('');
   const [kb_author_email, setKb_author_email] = useState('');
+  const [kb_featured, setKb_featured] = useState('');
 
   useEffect(() => {
     getArtigo();
@@ -33,9 +34,9 @@ export function Article() {
           setKb_permalink(artigoData.kb_permalink);
           setKb_keywords(artigoData.kb_keywords.join(', '));
           setKb_author_email(artigoData.kb_author_email);
+          setKb_featured(artigoData.kb_featured);
         } 
       }   
-      console.log(kb_title);   
     } catch (error) {
       console.error("Error fetching post:", error);
     }
@@ -50,6 +51,7 @@ export function Article() {
       kb_permalink,
       kb_keywords: kb_keywords.split(',').map(keyword => keyword.trim()),
       kb_author_email,
+      kb_featured,
     };
 
     try {
@@ -101,7 +103,13 @@ export function Article() {
             value={kb_author_email}
             onChange={(e) => setKb_author_email(e.target.value)}
           />
-          <Button type="submit" text="Cadastrar" />
+          <Input
+            type="text"
+            placeholder="Destaque"
+            value={kb_featured}
+            onChange={(e) => setKb_featured(e.target.value)}
+          />
+         {id ? <Button type="submit" text="Atualizar" />  :  <Button type="submit" text="Cadastrar" />  }        
         </form>
       </Section>
     </AuthContainer>

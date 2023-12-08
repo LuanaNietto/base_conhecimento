@@ -1,25 +1,16 @@
 import { TextLimit } from "../TextLimit/TextLimit";
-import { CardBody, CardContainer, CardFooter, CardHeader } from "./CardStyled";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../Button/Button";
-import { curtirPost, getAllPosts} from "../../services/articleService";
-import { searchFunction } from "../../functions/searchFunction";
+import { CardBody, CardContainer, CardFooter, CardHeader} from "./CardStyled";
+import { curtirPost } from "../../services/articleService";
 import { useState, useEffect} from "react";
 
 export function Card(props) {
-  const {
-    reset
-  } = useForm({
-    resolver: zodResolver(searchFunction),
-  });
-
   const [like, setLike] = useState('');
 
-  async function curtir(data) {
-    const id = data.id;
+  async function curtir() {
+    const id = props.id;
     await curtirPost(id);
-    setLike(props.likes);
+    const novoNumeroDeCurtidas = props.likes + 1;
+    setLike(novoNumeroDeCurtidas);
   }
 
   useEffect(() => {
@@ -31,15 +22,15 @@ export function Card(props) {
       <CardBody>
         <div>
           <CardHeader >
+            {props.feature == 'on' ? (<i className="bi bi-star" style={{color: '#DAA520', fontSize: '15px'}}></i> ): (<i></i>)}
             <h2>{props.title}</h2>
             <TextLimit text={props.text} limit={150} />
           </CardHeader>
 
           <CardFooter>
-            <form onSubmit={(e) => { e.preventDefault(); curtir(props); }}>
+            <form onSubmit={(e) => { e.preventDefault(); curtir(); }}>
               <section>
-                <Button type="submit"></Button>
-                <i className="bi bi-hand-thumbs-up"></i>
+                <button type="submit" style={{border: 'none'}}> <i className="bi bi-hand-thumbs-up" style={{color: 'blue', fontSize: '18px'}}></i> </button>
                 <span>{like}</span>
               </section>
             </form>  

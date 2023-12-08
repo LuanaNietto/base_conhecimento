@@ -13,3 +13,8 @@ export const HomeHeader = styled.section`
   display: flex;
   margin: 1rem auto;
 `;
+
+export const H1 = styled.h1`
+  margin: 1rem auto;
+  margin-left: 1rem ;
+`;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { ButtonOnClick, ButtonCrud } from "../../components/Button/Button";
+import { ButtonOnClick, ButtonCrud, Button } from "../../components/Button/Button";
 import { Nav, Body, Li, Ul } from "./AdminStyled";
 import { deleteArtigo, getAllPosts } from "../../services/articleService";
 import { getAllUsers, deleteUser } from "../../services/userService";
@@ -52,6 +52,9 @@ export function Admin() {
         <Nav>
             <h1>Administrador</h1>
             <div>
+                <Link to="/" style={{marginRight: '10px'}}>
+                  <Button type="button" text="Home"></Button>
+                </Link>
                 <ButtonOnClick type="button" onClick={() => handleClick('users')} text="Usuários"></ButtonOnClick>
                 <ButtonOnClick type="button" onClick={() => handleClick('articles')} text="Artigos"></ButtonOnClick>
             </div>
