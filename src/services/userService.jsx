@@ -48,7 +48,7 @@ export function deleteUser(id) {
 }
 
 export function userLogged() {
-  const response = axios.get(`${baseURL}/user/get`, {
+  const response = axios.get(`${baseURL}/user/protegido`, {
     headers: {
       Authorization: `Bearer ${Cookies.get("token")}`,
     },

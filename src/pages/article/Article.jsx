@@ -1,53 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input/Input";
 import { AuthContainer, Section } from "./ArticleStyled";
-import { create } from "../../services/articleService";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { create, getArtigoById, updateArtigo } from "../../services/articleService";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export function Article() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get('id') || null;
 
   const [kb_title, setKb_title] = useState('');
   const [kb_body, setKb_body] = useState('');
   const [kb_permalink, setKb_permalink] = useState('');
+  const [kb_keywords, setKb_keywords] = useState('');
   const [kb_author_email, setKb_author_email] = useState('');
-  const [keywordsArray, setKeywordsArray] = useState([]);
-  
-  const handleTitleChange = (e) => {
-    setKb_title(e.target.value);
-  };
 
-  const handleLinkChange = (e) => {
-    setKb_permalink(e.target.value);
-  };
+  useEffect(() => {
+    getArtigo();
+  }, []);
 
-  const handleBodyChange = (e) => {
-    setKb_body(e.target.value);
-  };
-
-  const handleKeywordChange = (e) => {
-    const arrayFromInput = e.target.value.split(',');
-    const trimmedArray = arrayFromInput.map((item) => item.trim());
-  
-    setKeywordsArray(trimmedArray);
-  };
-
-  const handleAuthorChange = (e) => {
-    setKb_author_email(e.target.value);
-  };
-
-  const handleSubmitRegister = (e) => {
-    e.preventDefault();
-    upHanleSubmit({kb_title, kb_body, keywordsArray, kb_permalink, kb_author_email});
+  async function getArtigo() {
+    try {
+      if (id != null){
+        const response = await getArtigoById(id);
+        
+        if (response && response.data) {
+          const artigoData = response.data;
+          console.log(artigoData);
+          setKb_title(artigoData.kb_title)
+          setKb_body(artigoData.kb_body)
+          setKb_permalink(artigoData.kb_permalink);
+          setKb_keywords(artigoData.kb_keywords.join(', '));
+          setKb_author_email(artigoData.kb_author_email);
+        } 
+      }   
+      console.log(kb_title);   
+    } catch (error) {
+      console.error("Error fetching post:", error);
+    }
   }
 
-  async function upHanleSubmit(data) {
-    console.log(data);
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const artigoData = {
+      kb_title,
+      kb_body,
+      kb_permalink,
+      kb_keywords: kb_keywords.split(',').map(keyword => keyword.trim()),
+      kb_author_email,
+    };
+
     try {
-      const response = await create(data);
-      navigate("/");
+      if(id){
+        await updateArtigo(id, artigoData);
+      } else{
+        await create(artigoData);
+      }
+      
+      navigate("/admin");
     } catch (error) {
       console.log(error);
     }
@@ -56,37 +68,38 @@ export function Article() {
   return (
     <AuthContainer>     
       <Section type="signup">
-        <h2>Cadastrar Artigo</h2>
-        <form onSubmit={handleSubmitRegister}>
+        <h2>{id ? 'Atualizar artigo': 'Cadastrar Artigo'}</h2>
+        <form onSubmit={handleSubmit}>
           <Input
             type="text"
             placeholder="Titulo"
-            name="kb_title"
-            onChange={handleTitleChange}
+            value={kb_title}
+            onChange={(e) => setKb_title(e.target.value)}
           />
           <Input
             type="text"
             placeholder="Texto"
-            name="kb_body"
-            onChange={handleBodyChange}
+            value={kb_body}
+            onChange={(e) => setKb_body(e.target.value)}
           />
            <Input
             type="text"
             placeholder="Link"
-            name="kb_permalink"
-            onChange={handleLinkChange}
+            value={kb_permalink}
+            onChange={(e) => setKb_permalink(e.target.value)}
           />
           <Input
             type="text"
-            placeholder="Palavras chaves"
-            name="kb_keywords"
-            onChange={handleKeywordChange}
+            placeholder="Palavras chaves (separadas por vírgula)"
+            value={kb_keywords}
+            onChange={(e) => setKb_keywords(e.target.value)}
           />
+        
           <Input
             type="email"
             placeholder="Email do autor"
-            name="kb_author_email"
-            onChange={handleAuthorChange}
+            value={kb_author_email}
+            onChange={(e) => setKb_author_email(e.target.value)}
           />
           <Button type="submit" text="Cadastrar" />
         </form>

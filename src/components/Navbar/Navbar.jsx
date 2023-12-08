@@ -26,17 +26,22 @@ export function Navbar() {
     resolver: zodResolver(searchFunction),
   });
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
+  const [ token, setToken ] = useState(false);
 
   function onSearch(data) {
     const { title } = data;
     navigate(`/search/${title}`);
     reset();
   }
+
   async function findUserLogged() {
     try {
       const response = await userLogged();
-      setUser(response.data);
+      if (response.statusText == 'OK') {
+        setToken(true);
+      } 
+
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +49,7 @@ export function Navbar() {
 
   function signout() {
     Cookies.remove("token");
-    setUser(undefined);
+    setToken(false);
     navigate("/");
   }
 
@@ -68,20 +73,14 @@ export function Navbar() {
             />
           </InputSpace>
         </form>
-        
 
-      
-      
-        {user ? (
+        {token ? (
           <UserLoggedSpace>
-            <Link to="/">
-              <h2>{user.name}</h2>
+            <Link to="/admin">
+              <Button type="button" text="Admin">
+                Admin
+              </Button>
             </Link>
-              <Link to="/article">
-                <Button type="button" text="Cadastrar Artigo">
-                  Cadastrar Artigo
-                </Button>
-              </Link>
 
             <i className="bi bi-box-arrow-right" onClick={signout}></i>
           </UserLoggedSpace>
@@ -93,12 +92,6 @@ export function Navbar() {
           </Link>
             
         )}
-
-        <Link to="/teste">
-          <Button type="button" text="Admin">
-            Admin
-          </Button>
-        </Link>
 
       </Nav>
       {errors.title && <ErrorSpan>{errors.title.message}</ErrorSpan>}

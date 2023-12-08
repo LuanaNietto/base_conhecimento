@@ -9,8 +9,8 @@ import ErrorPage from "./pages/error/ErrorPage";
 import { Login } from "./pages/login/Login";
 import {Article} from "./pages/article/Article"
 import UserProvider from "./context/Context";
-import { Teste } from "./pages/teste/teste";
-import { List } from "./pages/list/List";
+import { Admin } from "./pages/admin/Admin";
+import { User } from "./pages/user/user"
 
 const router = createBrowserRouter([
   {
@@ -37,12 +37,12 @@ const router = createBrowserRouter([
     element: <Article />,
   },
   {
-    path: "/list",
-    element: <List />,
+    path: "/admin",
+    element: <Admin />,
   },
   {
-    path: "/teste",
-    element: <Teste />,
+    path: "/cadastrouser",
+    element: <User />,
   },
 ]);
 

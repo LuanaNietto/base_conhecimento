@@ -21,7 +21,6 @@ export default function Home() {
         {posts.map(item => (
           <Card
             key={item._id}
-            top={true}
             title={item.kb_title}
             text={item.kb_body}
             banner={item.kb_keywords}
