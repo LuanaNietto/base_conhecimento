@@ -3,8 +3,9 @@ import { CardBody, CardContainer, CardFooter, CardHeader } from "./CardStyled";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../Button/Button";
-import { curtirPost} from "../../services/articleService";
+import { curtirPost, getAllPosts} from "../../services/articleService";
 import { searchFunction } from "../../functions/searchFunction";
+import { useState, useEffect} from "react";
 
 export function Card(props) {
   const {
@@ -13,12 +14,17 @@ export function Card(props) {
     resolver: zodResolver(searchFunction),
   });
 
+  const [like, setLike] = useState('');
+
   async function curtir(data) {
-    console.log(data);
     const id = data.id;
     await curtirPost(id);
-    reset();
+    setLike(props.likes);
   }
+
+  useEffect(() => {
+    setLike(props.likes);
+  }, []);
 
   return (
     <CardContainer>
@@ -34,7 +40,7 @@ export function Card(props) {
               <section>
                 <Button type="submit"></Button>
                 <i className="bi bi-hand-thumbs-up"></i>
-                <span>{props.likes}</span>
+                <span>{like}</span>
               </section>
             </form>  
           </CardFooter>
