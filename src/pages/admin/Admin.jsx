@@ -27,6 +27,7 @@ export function Admin() {
   async function deletarUsuario(id){
     try {
       await deleteUser(id);
+      alert("Usuário deletado com sucesso!");
       getUsers();
     } catch (error) {
       console.error("Error deleting post:", error);
@@ -36,6 +37,7 @@ export function Admin() {
   async function deletarArtigo(id){
     try {
       await deleteArtigo(id);
+      alert("Artigo deletado com sucesso!");
       getArtigos();
     } catch (error) {
       console.error("Error deleting post:", error);
@@ -82,7 +84,7 @@ export function Admin() {
                     <Ul>
                         {articles.map(article => (
                             <Li key={article._id}>
-                                 <Link to={`/article?id=${article._id}`}><li><strong>Titulo: </strong>{article.kb_title} - <strong>Palavras chaves: </strong> {article.kb_keywords}</li> </Link>                                                               
+                                 <Link to={`/article?id=${article._id}`}><li><strong>Titulo: </strong>{article.kb_title}</li> </Link>                                                               
                                 <ButtonCrud type="button" onClick={() => deletarArtigo(article._id)} text="Deletar artigo"></ButtonCrud>
                             </Li>
                         ))}

@@ -29,11 +29,12 @@ export function Login() {
       const response = await signin(user);
       if (response.statusText == 'OK') {
         Cookies.set("token", response.data, { expires: 1 });
-        navigate("/");
-      
+        alert("Login feito com sucesso!");
+        navigate("/admin");
       }
     } catch (error) {
-      // console.log(error);
+      alert("Erro ao fazer o login!");
+      navigate("/");
     }
   }
 

@@ -50,8 +50,10 @@ export function User(){
     try {
       if(id){
         await updateUser(id, userData);
+        alert("Usuário atualizado com sucesso!");
       } else{
         await signup(userData);
+        alert("Usuário criado com sucesso!");
       }
       
       navigate("/admin");

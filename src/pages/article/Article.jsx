@@ -28,7 +28,6 @@ export function Article() {
         
         if (response && response.data) {
           const artigoData = response.data;
-          console.log(artigoData);
           setKb_title(artigoData.kb_title)
           setKb_body(artigoData.kb_body)
           setKb_permalink(artigoData.kb_permalink);
@@ -57,8 +56,10 @@ export function Article() {
     try {
       if(id){
         await updateArtigo(id, artigoData);
+        alert("Artigo atualizado com sucesso!");
       } else{
         await create(artigoData);
+        alert("Artigo criado com sucesso!");
       }
       
       navigate("/admin");
