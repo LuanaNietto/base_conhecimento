@@ -4,13 +4,17 @@ import { getAllPosts} from "../../services/articleService";
 import { HomeBody, H1 } from "./HomeStyled";
 
 export default function Home() {
-  const [posts, setPosts] = useState([]);
+  const [artigos, setArtigos] = useState([]);
+  const [artigosDestaques, setArtigosDestaques] = useState([]);
 
   async function findPost() {
     const postsResponse = await getAllPosts();
     const artigos = postsResponse.data.sort((a, b) => b.kb_liked_count - a.kb_liked_count);
-    setPosts(artigos); 
-   }
+    setArtigos(artigos); 
+
+    let artigosEmDestaques = artigos.filter((a) => a.kb_featured === 'on');
+    setArtigosDestaques(artigosEmDestaques);
+  }
 
   useEffect(() => {
     findPost();
@@ -20,8 +24,7 @@ export default function Home() {
     <>
       <H1>Artigos de destaques <i className="bi bi-star" style={{color: '#DAA520', fontSize: '20px'}}></i></H1>
       <HomeBody>
-        {posts.map(item => (
-          item.kb_featured == 'on' ? (
+        {artigosDestaques.map(item => (
             <Card
             key={item._id}
             title={item.kb_title}
@@ -31,15 +34,11 @@ export default function Home() {
             likes={item.kb_liked_count}
             id={item._id}
           />
-          ) :(
-            <h2></h2>
-          )
-          
         ))}
       </HomeBody>
       <H1>Todos os artigos ordenados pelo número de curtidas</H1>
       <HomeBody>
-        {posts.map(item => (
+        {artigos.map(item => (
           <Card
             key={item._id}
             title={item.kb_title}
